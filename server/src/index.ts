@@ -11,8 +11,8 @@ app.get('/', (c) => {
     return c.text('Ayah of the day!')
 })
 //
-const clientId = process.env.CLIENT_ID;
-const clientSecret = process.env.CLIENT_SECRET;
+const clientId = process.env.CLIENT_ID!;
+const clientSecret = process.env.CLIENT_SECRET!;
 const AUTH_URL = 'https://oauth2.quran.foundation/oauth2/token';
 const API_BASE_URL = 'https://apis.quran.foundation/content/api/v4';
 
@@ -50,6 +50,9 @@ async function getAccessToken() {
 
 async function getRandomAyah() {
     await getAccessToken();
+    if (!accessToken) {
+        throw new Error('Access token not found');
+    }
     // console.log(accessToken);
     const response = await fetch(`${API_BASE_URL}/verses/random?words=true&translations=20,131&audio=7&fields=text_uthmani`, {
         method: 'GET',
