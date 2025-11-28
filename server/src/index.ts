@@ -16,15 +16,15 @@ const clientSecret = process.env.CLIENT_SECRET;
 const AUTH_URL = 'https://oauth2.quran.foundation/oauth2/token';
 const API_BASE_URL = 'https://apis.quran.foundation/content/api/v4';
 
-let accessToken = null;
-let tokenExpiresAt = 0;
+let accessToken: string | null = null;
+let tokenExpiresAt: number = 0;
 
 async function getAccessToken() {
     if (accessToken && tokenExpiresAt > Date.now()) {
         return accessToken;
     }
     // console.log("GETTING TOKEN");
-    const auth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
+    const auth: string = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
 
     try {
         const response = await fetch(AUTH_URL, {
